@@ -1,4 +1,3 @@
+-r dreambooth/requirements.txt
 ray
-huggingface-hub
-diffusers
 pyarrow
