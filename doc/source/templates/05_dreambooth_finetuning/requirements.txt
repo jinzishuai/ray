@@ -1,2 +1,2 @@
 ray
-huggingface_hub
+huggingface-hub
