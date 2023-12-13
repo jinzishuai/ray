@@ -1,5 +1,5 @@
 from diffusers import DiffusionPipeline
-from diffusers.loaders.lora import LoraLoaderMixin
+from diffusers.loaders import LoraLoaderMixin
 import torch
 
 
