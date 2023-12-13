@@ -1,1 +1,2 @@
 ray
+huggingface_hub
