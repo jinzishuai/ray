@@ -40,30 +40,30 @@ spec:
                   name: client
                 - containerPort: 8000
                   name: serve
-    workerGroupSpecs:
-      - replicas: 1
-        minReplicas: 1
-        maxReplicas: 5
-        rayStartParams: {}
-        groupName: small-group
-        template:
-          spec:
-            containers:
-              - name: ray-worker
-                image: jinzishuai/ray-train-dreambooth:latest
-                lifecycle:
-                  preStop:
-                    exec:
-                      command: ["/bin/sh", "-c", "ray stop"]
-                resources:
-                  limits:
-                    cpu: "2"
-                    memory: "16Gi"
-                    nvidia.com/gpu: 1
-                  requests:
-                    cpu: "2"
-                    memory: "16Gi"
-                    nvidia.com/gpu: 1
+    # workerGroupSpecs:
+    #   - replicas: 1
+    #     minReplicas: 1
+    #     maxReplicas: 5
+    #     rayStartParams: {}
+    #     groupName: small-group
+    #     template:
+    #       spec:
+    #         containers:
+    #           - name: ray-worker
+    #             image: jinzishuai/ray-train-dreambooth:latest
+    #             lifecycle:
+    #               preStop:
+    #                 exec:
+    #                   command: ["/bin/sh", "-c", "ray stop"]
+    #             resources:
+    #               limits:
+    #                 cpu: "2"
+    #                 memory: "16Gi"
+    #                 nvidia.com/gpu: 1
+    #               requests:
+    #                 cpu: "2"
+    #                 memory: "16Gi"
+    #                 nvidia.com/gpu: 1
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
