@@ -85,11 +85,3 @@ spec:
                 name: ray-training-head-svc
                 port:
                   number: 8265
-          # Ray Serve
-          - path: /ray-training/serve/(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: ray-training-head-svc
-                port:
-                  number: 8000
