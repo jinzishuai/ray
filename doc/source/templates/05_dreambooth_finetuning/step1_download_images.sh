@@ -19,7 +19,7 @@ export IMAGES_REG_DIR="$DATA_PREFIX/images-reg"
 export IMAGES_OWN_DIR="$DATA_PREFIX/images-own"
 export IMAGES_NEW_DIR="$DATA_PREFIX/images-new"
 # TODO: Add more worker nodes and increase NUM_WORKERS for more data-parallelism
-export NUM_WORKERS=2
+export NUM_WORKERS=1
 
 mkdir -p $ORIG_MODEL_DIR $TUNED_MODEL_DIR $IMAGES_REG_DIR $IMAGES_OWN_DIR $IMAGES_NEW_DIR
 # __preparation_end__
