@@ -12,10 +12,6 @@ metadata:
 spec:
   serviceUnhealthySecondThreshold: 600
   deploymentUnhealthySecondThreshold: 600
-  serveConfig:
-    importPath: ray-training:entrypoint
-    runtimeEnv: |
-      env_vars: {"MODEL_ID": "jinzishuai/ray-training"}
   rayClusterConfig:
     rayVersion: "2.6.0"
     headGroupSpec:
