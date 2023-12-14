@@ -2,20 +2,20 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: dogbooth
+  name: ray-training
 ---
 apiVersion: ray.io/v1alpha1
 kind: RayService
 metadata:
-  name: dogbooth
-  namespace: dogbooth
+  name: ray-training
+  namespace: ray-training
 spec:
   serviceUnhealthySecondThreshold: 600
   deploymentUnhealthySecondThreshold: 600
   serveConfig:
-    importPath: dogbooth:entrypoint
+    importPath: ray-training:entrypoint
     runtimeEnv: |
-      env_vars: {"MODEL_ID": "jinzishuai/dogbooth"}
+      env_vars: {"MODEL_ID": "jinzishuai/ray-training"}
   rayClusterConfig:
     rayVersion: "2.6.0"
     headGroupSpec:
@@ -25,7 +25,7 @@ spec:
         spec:
           containers:
             - name: ray-head
-              image: public.ecr.aws/h3o5n2r0/dogbooth:0.0.1-gpu
+              image: jinzishuai/ray-train-dreambooth:latest
               resources:
                 limits:
                   cpu: 2
@@ -54,7 +54,7 @@ spec:
           spec:
             containers:
               - name: ray-worker
-                image: public.ecr.aws/h3o5n2r0/dogbooth:0.0.1-gpu
+                image: jinzishuai/ray-train-dreambooth:latest
                 lifecycle:
                   preStop:
                     exec:
@@ -72,8 +72,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dogbooth
-  namespace: dogbooth
+  name: ray-training
+  namespace: ray-training
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
@@ -82,18 +82,18 @@ spec:
     - http:
         paths:
           # Ray Dashboard
-          - path: /dogbooth/(.*)
+          - path: /ray-training/(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: dogbooth-head-svc
+                name: ray-training-head-svc
                 port:
                   number: 8265
           # Ray Serve
-          - path: /dogbooth/serve/(.*)
+          - path: /ray-training/serve/(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: dogbooth-head-svc
+                name: ray-training-head-svc
                 port:
                   number: 8000
