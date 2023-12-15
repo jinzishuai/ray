@@ -9,7 +9,7 @@ pushd dreambooth || true
 # Step 0 cont
 # __preparation_start__
 # TODO: If running on multiple nodes, change this path to a shared directory (ex: NFS)
-export DATA_PREFIX="/tmp"
+export DATA_PREFIX="/data/tmp" # EFS is mounted at /data on all nodes
 export ORIG_MODEL_NAME="CompVis/stable-diffusion-v1-4"
 export ORIG_MODEL_HASH="b95be7d6f134c3a9e62ee616f310733567f069ce"
 export ORIG_MODEL_DIR="$DATA_PREFIX/model-orig"
