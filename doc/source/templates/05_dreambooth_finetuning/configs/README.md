@@ -3,18 +3,25 @@
 Build at the parent folder:
 
 ```
-╭─   ~/src/jinzishuai/ray/doc/source/templates/05_dreambooth_finetuning   master ·········································································  12:57:57
-╰─❯ docker build -t ray-train-dreambooth  -f configs/Dockerfile .
+╭─   ~/src/jinzishuai/ray/doc/source/templates/05_dreambooth_finetuning   master ·····································································  17s  23:50:35
+╰─❯ docker build -t jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu  -f configs/Dockerfile .
 ```
 
 It is then pushed to [jinzishuai/ray-train-dreambooth](https://hub.docker.com/repository/docker/jinzishuai/ray-train-dreambooth/general)
 
+```
+╭─   ~/src/jinzishuai/ray/doc/source/templates/05_dreambooth_finetuning   master !3 ·································································· ✘ INT  13:21:25
+╰─❯ docker push jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu
+The push refers to repository [docker.io/jinzishuai/ray-train-dreambooth]
+5f70bf18a086: Layer already exists
+
+```
 
 ## Run shell in the container
 
 ```
 ╭─   ~/src/jinzishuai/ray/doc/source/templates/05_dreambooth_finetuning   master ···································································  24s  17:10:30
-╰─❯ docker run -it ray-train-dreambooth /bin/bash
+╰─❯ docker run -it jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu /bin/bash
 WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
 
 ==========
@@ -39,7 +46,7 @@ WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be avai
 ray
 (base) ray@75e55c0a70bc:~$ sudo whoami
 root
-(base) ray@75e55c0a70bc:~$ cat /etc/os-release 
+(base) ray@75e55c0a70bc:~$ cat /etc/os-release
 NAME="Ubuntu"
 VERSION="20.04.6 LTS (Focal Fossa)"
 ID=ubuntu
@@ -59,5 +66,5 @@ base                  *  /home/ray/anaconda3
 
 (base) ray@75e55c0a70bc:~$ which python
 /home/ray/anaconda3/bin/python
-(base) ray@75e55c0a70bc:~$ 
+(base) ray@75e55c0a70bc:~$
 ```
