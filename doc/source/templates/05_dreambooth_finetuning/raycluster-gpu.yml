@@ -20,7 +20,7 @@ spec:
             resources:
               requests:
                 cpu: "2"
-                memory: "14Gi"
+                memory: "13Gi"
                 nvidia.com/gpu: "1" # Request one NVIDIA GPU
               limits:
                 cpu: "2"
@@ -35,7 +35,7 @@ spec:
               claimName: efs-claim
   workerGroupSpecs:
     - groupName: worker-group
-      replicas: 0
+      replicas: 1
       minReplicas: 0
       maxReplicas: 3
       rayStartParams: {}
