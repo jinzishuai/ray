@@ -13,7 +13,7 @@ spec:
       spec:
         containers:
           - name: ray-head
-            image: rayproject/ray-ml:2.8.1-py310-gpu
+            image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu
             ports:
               - containerPort: 6379
               - containerPort: 8265 # dashboard
@@ -43,7 +43,7 @@ spec:
         spec:
           containers:
             - name: ray-worker
-              image: rayproject/ray-ml:2.8.1-py310-gpu
+              image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu
               resources:
                 requests:
                   cpu: "1"
