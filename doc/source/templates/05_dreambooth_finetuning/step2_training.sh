@@ -19,7 +19,7 @@ export IMAGES_REG_DIR="$DATA_PREFIX/images-reg"
 export IMAGES_OWN_DIR="$DATA_PREFIX/images-own"
 export IMAGES_NEW_DIR="$DATA_PREFIX/images-new"
 # TODO: Add more worker nodes and increase NUM_WORKERS for more data-parallelism
-export NUM_WORKERS=2
+export NUM_WORKERS=4
 
 mkdir -p $ORIG_MODEL_DIR $TUNED_MODEL_DIR $IMAGES_REG_DIR $IMAGES_OWN_DIR $IMAGES_NEW_DIR
 # __preparation_end__
@@ -46,48 +46,14 @@ for arg in "$@"; do
   esac
 done
 
-# Step 1
-# __cache_model_start__
-python cache_model.py --model_dir=$ORIG_MODEL_DIR --model_name=$ORIG_MODEL_NAME --revision=$ORIG_MODEL_HASH
-# __cache_model_end__
 
-download_image() {
-  # Step 2
-  # __supply_own_images_start__
-  # Only uncomment one of the following:
 
-  # Option 1: Use the dog dataset ---------
-  export CLASS_NAME="dog"
-  python download_example_dataset.py ./images/dog
-  export INSTANCE_DIR=./images/dog
-  # ---------------------------------------
+# Option 1: Use the dog dataset ---------
+export CLASS_NAME="dog"
+export INSTANCE_DIR=./images/dog
+# ---------------------------------------
 
-  # Option 2: Use the lego car dataset ----
-  # export CLASS_NAME="car"
-  # export INSTANCE_DIR=./images/lego-car
-  # ---------------------------------------
-
-  # Option 3: Use your own images ---------
-  # export CLASS_NAME="<class-of-your-subject>"
-  # export INSTANCE_DIR="/path/to/images/of/subject"
-  # ---------------------------------------
-
-  # Copy own images into IMAGES_OWN_DIR
-  cp -rf $INSTANCE_DIR/* "$IMAGES_OWN_DIR/"
-  # __supply_own_images_end__
-
-  # Clear reg dir
-  rm -rf "$IMAGES_REG_DIR"/*.jpg
-
-  # Step 3: START
-  python generate.py \
-    --model_dir=$ORIG_MODEL_PATH \
-    --output_dir=$IMAGES_REG_DIR \
-    --prompts="photo of a $CLASS_NAME" \
-    --num_samples_per_prompt=200 \
-    --use_ray_data
-  # Step 3: END
-}
+ 
 
 # Skip step 2 and 3 if skip_image_setup=true
 
@@ -100,7 +66,7 @@ fi
 if [ "$use_lora" = false ]; then
   echo "Start full-finetuning..."
   # Step 4: START
-  python train.py \
+  ray job submit -- python $(pwd)/train.py \
     --model_dir=$ORIG_MODEL_PATH \
     --output_dir=$TUNED_MODEL_DIR \
     --instance_images_dir=$IMAGES_OWN_DIR \
@@ -115,7 +81,7 @@ if [ "$use_lora" = false ]; then
   # Step 4: END
 else
   echo "Start LoRA finetuning..."
-  python train.py \
+  ray job submit -- python $(pwd)/train.py \
   --use_lora \
   --model_dir=$ORIG_MODEL_PATH \
   --output_dir=$TUNED_MODEL_DIR \
@@ -129,3 +95,6 @@ else
   --max_train_steps=200 \
   --num_workers $NUM_WORKERS
 fi
+
+# Exit
+popd || true
