@@ -9,6 +9,7 @@ RUN sudo apt install -y vim psmisc
 COPY ./requirements.txt ./
 ADD dreambooth/requirements.txt ./dreambooth/requirements.txt
 
+RUN pip uninstall -y mlflow
 RUN pip install --no-cache-dir -U -r requirements.txt
 
 RUN echo "Testing Ray Import..." && python -c "import ray"

@@ -14,7 +14,7 @@ spec:
       spec:
         containers:
           - name: ray-head
-            image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu
+            image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu-arrow13
             ports:
               - containerPort: 6379
               - containerPort: 8265 # dashboard
@@ -36,7 +36,7 @@ spec:
               claimName: efs-claim
   workerGroupSpecs:
     - groupName: worker-group
-      replicas: 0
+      replicas: 1
       minReplicas: 0
       maxReplicas: 3
       rayStartParams: {}
@@ -44,7 +44,7 @@ spec:
         spec:
           containers:
             - name: ray-worker
-              image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu
+              image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu-arrow13
               resources:
                 requests:
                   cpu: "1"
