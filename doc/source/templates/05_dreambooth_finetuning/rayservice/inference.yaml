@@ -1,19 +1,19 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ray-training
----
 apiVersion: ray.io/v1alpha1
 kind: RayService
 metadata:
-  name: ray-training
-  namespace: ray-training
+  name: dreambooth-inference
+  namespace: ray-gpu
 spec:
+  serveConfigV2: |
+    applications:
+      - name: stable_diffusion
+        import_path: doc.source.templates.05_dreambooth_finetuning.rayservice:entrypoint
+        runtime_env:
+          working_dir: "https://github.com/jinzishuai/ray/archive/master.zip"
   serviceUnhealthySecondThreshold: 600
   deploymentUnhealthySecondThreshold: 600
   rayClusterConfig:
-    rayVersion: "2.6.0"
+    rayVersion: "2.8.1"
     headGroupSpec:
       rayStartParams:
         dashboard-host: "0.0.0.0"
@@ -21,16 +21,16 @@ spec:
         spec:
           containers:
             - name: ray-head
-              image: jinzishuai/ray-train-dreambooth:latest
+              image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu-arrow13
               resources:
                 limits:
                   cpu: 2
-                  memory: 16Gi
+                  memory: 13Gi
                   nvidia.com/gpu: 1
                 requests:
                   cpu: 2
-                  memory: 16Gi
-                  nvidia.com/gpu: 1
+                  memory: 15Gi
+                  nvidia.com/gpu: 1 # fits within a g5.xlarge instance in AWS
               ports:
                 - containerPort: 6379
                   name: gcs-server
@@ -64,24 +64,24 @@ spec:
     #                 cpu: "2"
     #                 memory: "16Gi"
     #                 nvidia.com/gpu: 1
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ray-training
-  namespace: ray-training
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          # Ray Dashboard
-          - path: /ray-training/(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: ray-training-head-svc
-                port:
-                  number: 8265
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ray-training
+#   namespace: ray-training
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#     - http:
+#         paths:
+#           # Ray Dashboard
+#           - path: /ray-training/(.*)
+#             pathType: ImplementationSpecific
+#             backend:
+#               service:
+#                 name: ray-training-head-svc
+#                 port:
+#                   number: 8265
