@@ -29,7 +29,7 @@ spec:
                   nvidia.com/gpu: 1
                 requests:
                   cpu: 2
-                  memory: 15Gi
+                  memory: 13Gi
                   nvidia.com/gpu: 1 # fits within a g5.xlarge instance in AWS
               ports:
                 - containerPort: 6379
