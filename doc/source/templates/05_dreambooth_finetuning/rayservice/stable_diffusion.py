@@ -6,6 +6,7 @@ import torch
 from ray import serve
 from ray.serve.handle import DeploymentHandle
 
+import os
 
 app = FastAPI()
 
@@ -38,7 +39,8 @@ class StableDiffusionV2:
     def __init__(self):
         from diffusers import EulerDiscreteScheduler, StableDiffusionPipeline
 
-        model_path = "/data/tmp/model-orig/models--CompVis--stable-diffusion-v1-4/snapshots/b95be7d6f134c3a9e62ee616f310733567f069ce"  # Replace with the actual path to your local model folder
+        # get model_path from env_var MODEL_PATH, which is set in the RayServie YAML
+        model_path = os.environ["MODEL_PATH"]
 
         scheduler = EulerDiscreteScheduler.from_pretrained(
             model_path, subfolder="scheduler"
