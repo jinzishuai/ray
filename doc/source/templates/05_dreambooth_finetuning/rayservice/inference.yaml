@@ -7,7 +7,7 @@ spec:
   serveConfigV2: |
     applications:
       - name: stable_diffusion
-        import_path: doc.source.templates.05_dreambooth_finetuning.rayservice:entrypoint
+        import_path: doc.source.templates.05_dreambooth_finetuning.rayservice.stable_diffusion:entrypoint
         runtime_env:
           working_dir: "https://github.com/jinzishuai/ray/archive/master.zip"
   serviceUnhealthySecondThreshold: 600
