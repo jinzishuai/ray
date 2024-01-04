@@ -39,8 +39,11 @@ class StableDiffusionV2:
     def __init__(self):
         from diffusers import EulerDiscreteScheduler, StableDiffusionPipeline
 
-        # get model_path from env_var MODEL_PATH, which is set in the RayServie YAML
-        model_path = os.environ["MODEL_PATH"]
+        # get model_path from env_var MODEL_PATH, which is set in the RayServie YAML,
+        # if not found use the default value of tuned model
+        model_path = os.environ.get("MODEL_PATH", "/data/tmp/model-tuned")
+        print(f"env_var MODEL_PATH={os.environ.get('MODEL_PATH')}")
+        print(f"Loading model from {model_path}")
 
         scheduler = EulerDiscreteScheduler.from_pretrained(
             model_path, subfolder="scheduler"
