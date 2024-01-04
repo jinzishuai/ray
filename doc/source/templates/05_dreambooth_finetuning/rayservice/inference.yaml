@@ -79,6 +79,13 @@ spec:
                     cpu: "3"
                     memory: "13Gi"
                     nvidia.com/gpu: 1
+                volumeMounts:
+                  - name: persistent-storage
+                    mountPath: /data
+            volumes:
+              - name: persistent-storage
+                persistentVolumeClaim:
+                  claimName: efs-claim
 # ---
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
