@@ -26,6 +26,7 @@ spec:
   deploymentUnhealthySecondThreshold: 600
   rayClusterConfig:
     rayVersion: "2.8.1"
+    enableInTreeAutoscaling: true
     headGroupSpec:
       rayStartParams:
         dashboard-host: "0.0.0.0"
@@ -60,7 +61,7 @@ spec:
               persistentVolumeClaim:
                 claimName: efs-claim
     workerGroupSpecs:
-      - replicas: 1 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
+      - replicas: 0 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
         minReplicas: 0
         maxReplicas: 3
         rayStartParams: {}
