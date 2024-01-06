@@ -65,7 +65,7 @@ spec:
     workerGroupSpecs:
       - replicas: 0 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
         minReplicas: 0
-        maxReplicas: 2
+        maxReplicas: 4
         rayStartParams: {}
         groupName: gpu-group
         template:
@@ -89,9 +89,9 @@ spec:
               - name: persistent-storage
                 persistentVolumeClaim:
                   claimName: efs-claim
-      - replicas: 0 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
-        minReplicas: 0
-        maxReplicas: 3
+      - replicas: 2 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
+        minReplicas: 2
+        maxReplicas: 2
         rayStartParams: {}
         groupName: cpu-group
         template:
@@ -101,11 +101,11 @@ spec:
                 image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu-arrow13
                 resources:
                   limits:
-                    cpu: "2"
+                    cpu: 1
                     memory: "4Gi"
                     nvidia.com/gpu: 0
                   requests:
-                    cpu: "2"
+                    cpu: 1
                     memory: "4Gi"
                     nvidia.com/gpu: 0
                 volumeMounts:
