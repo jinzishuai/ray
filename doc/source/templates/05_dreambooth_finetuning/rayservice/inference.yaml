@@ -97,11 +97,11 @@ spec:
               - name: persistent-storage
                 persistentVolumeClaim:
                   claimName: efs-claim
-      - replicas: 2 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
-        minReplicas: 2
+      - replicas: 1 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
+        minReplicas: 1
         maxReplicas: 2
         rayStartParams:
-          num-cpus: "4" # overrite to tell Ray there are 2 logical CPUs per node instead of the requested 1 from k8s
+          num-cpus: "2" # overrite to tell Ray there are 2 logical CPUs per node instead of the requested 1 from k8s
         groupName: cpu-group
         template:
           spec:
