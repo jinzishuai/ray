@@ -75,12 +75,12 @@ spec:
                 image: jinzishuai/ray-train-dreambooth:2.8.1-py310-gpu-arrow13
                 resources:
                   limits:
-                    cpu: "2"
-                    memory: "4Gi"
+                    cpu: "3" # 4 CPUs requires g5.2xlarge., 3 CPUs fits in g5.xlarge
+                    memory: "13Gi" # 13GB fits in g5.xlarge
                     nvidia.com/gpu: 1 # 1 fits within a g5.xlarge instance in AWS
                   requests:
-                    cpu: "2"
-                    memory: "4Gi"
+                    cpu: "3"
+                    memory: "13Gi"
                     nvidia.com/gpu: 1
                 volumeMounts:
                   - name: persistent-storage
