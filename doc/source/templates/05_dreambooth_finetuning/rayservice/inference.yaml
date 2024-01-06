@@ -14,10 +14,10 @@ spec:
           env_var:
             - name: MODEL_PATH
               value: "/data/tmp/model-orig/models--CompVis--stable-diffusion-v1-4/snapshots/b95be7d6f134c3a9e62ee616f310733567f069ce"
-        deployments:
-          - name: APIIngress
-            ray_actor_options:
-              num_cpus: 0.1          
+        # deployments:
+        #   - name: APIIngress
+        #     ray_actor_options:
+        #       num_cpus: 0.1          
       - name: tuned_dreambooth
         route_prefix: /tuned
         import_path: doc.source.templates.05_dreambooth_finetuning.rayservice.stable_diffusion:entrypoint
@@ -26,10 +26,10 @@ spec:
           env_var:
             - name: MODEL_PATH
               value: "/data/tmp/model-tuned"
-        deployments:
-          - name: APIIngress
-            ray_actor_options:
-              num_cpus: 0.1
+        # deployments:
+        #   - name: APIIngress
+        #     ray_actor_options:
+        #       num_cpus: 0.1
   serviceUnhealthySecondThreshold: 600
   deploymentUnhealthySecondThreshold: 600
   rayClusterConfig:
@@ -73,7 +73,7 @@ spec:
     workerGroupSpecs:
       - replicas: 0 # having two nodes would already require a g5.12xlarge instance (with 4 GPUs)
         minReplicas: 0
-        maxReplicas: 4
+        maxReplicas: 0
         rayStartParams: {}
         groupName: gpu-group
         template:
@@ -101,7 +101,7 @@ spec:
         minReplicas: 2
         maxReplicas: 2
         rayStartParams:
-          num-cpus: "2" # overrite to tell Ray there are 2 logical CPUs per node instead of the requested 1 from k8s
+          num-cpus: "4" # overrite to tell Ray there are 2 logical CPUs per node instead of the requested 1 from k8s
         groupName: cpu-group
         template:
           spec:
